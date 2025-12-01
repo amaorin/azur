@@ -13,8 +13,8 @@ if "%Platform%" neq "x64" (
 )
 
 set "ignored_warnings=/wd4201 /wd4200 /wd4100"
-set "common_compile_options= /nologo /W4 %ignored_warnings% /arch:AVX2"
-set "common_link_options= /incremental:no /opt:ref /subsystem:windows user32.lib opengl32.lib"
+set "common_compile_options= /nologo /W4 %ignored_warnings% /arch:AVX2 /I.."
+set "common_link_options= /incremental:no /opt:ref /subsystem:windows user32.lib gdi32.lib opengl32.lib"
 
 if "%1"=="debug" (
 	set "compile_options=%common_compile_options% /Od /Z7 /Zo /RTC1"

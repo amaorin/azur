@@ -49,6 +49,22 @@ typedef struct String
 #define STRING(S) (String){ .data = (u8*)(S), .len = sizeof(S) - 1 }
 #define MS_STRING(S) { .data = (u8*)(S), .len = sizeof(S) - 1 }
 
+static bool
+String_Equal(String s0, String s1)
+{
+	bool result = (s0.len == s1.len);
+
+	for (umm i = 0; i < s0.len && result; ++i)
+	{
+		if (s0.data[i] != s1.data[i])
+		{
+			result = false;
+		}
+	}
+
+	return result;
+}
+
 #define ASSERT(EX) ((EX) ? 1 : ((*(volatile int*)0 = 0), 0))
 #define NOT_IMPLEMENTED ASSERT(!"NOT_IMPLEMENTED")
 
@@ -62,7 +78,7 @@ typedef struct Bump
 
 typedef u32 Bump_Mark;
 
-void*
+static void*
 Bump_Push(Bump* bump, umm size, u8 alignment)
 {
 	ASSERT(alignment > 0 && ((alignment-1) & alignment) == 0);
@@ -77,20 +93,20 @@ Bump_Push(Bump* bump, umm size, u8 alignment)
 	return &bump->memory[aligned_cursor];
 }
 
-void
+static void
 Bump_Pop(Bump* bump, umm size)
 {
 	ASSERT(bump->cursor >= size);
 	bump->cursor -= (u32)size;
 }
 
-Bump_Mark
+static Bump_Mark
 Bump_GetMark(Bump* bump)
 {
 	return (Bump_Mark)bump->cursor;
 }
 
-void
+static void
 Bump_PopToMark(Bump* bump, Bump_Mark mark)
 {
 	ASSERT(mark <= bump->cursor);
