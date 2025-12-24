@@ -113,6 +113,9 @@ Bump_PopToMark(Bump* bump, Bump_Mark mark)
 	bump->cursor = mark;
 }
 
+#define AZUR_WIDTH  320
+#define AZUR_HEIGHT 180
+
 typedef struct Platform_Link
 {
 	Bump* frame_bump;
